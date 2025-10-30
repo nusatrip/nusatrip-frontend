@@ -2,8 +2,17 @@ package com.example.nusatrip_papb.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,8 +31,8 @@ import com.example.nusatrip_papb.ui.screens.profile.ProfileScreen
 import com.example.nusatrip_papb.ui.screens.smartplanner.SmartPlannerScreen
 
 /**
- * Main screen sebagai root navigation
- * Menangani navigasi utama: Login -> Register -> Main App
+ * Main screen as root navigation controller
+ * Handles main navigation flow: Splash -> Onboarding -> Login -> Main App
  */
 @Composable
 fun MainScreen() {
@@ -32,7 +41,7 @@ fun MainScreen() {
     Surface(color = MaterialTheme.colorScheme.background) {
         NavGraph(
             navController = navController,
-            startDestination = Routes.LOGIN
+            startDestination = Routes.SPLASH  // Start from splash screen
         )
     }
 }
