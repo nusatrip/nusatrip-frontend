@@ -1,4 +1,6 @@
-package com.example.nusatrip.ui.screens.home
+@file:Suppress("DEPRECATION")
+
+package com.example.nusatrip.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,13 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.painterResource
 import com.example.nusatrip.R
-
-data class RecommendationPlace(
-    val name: String,
-    val category: String,
-    val rating: Float,
-    val imageRes: Int
-)
+import com.google.accompanist.pager.ExperimentalPagerApi
 
 data class CarouselItem(val title: String, val imageRes: Int)
 
