@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "566386513417",
+    "project_id": "nusatrip-database",
+    "storage_bucket": "nusatrip-database.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566386513417:android:6c8149da257582ec344ad8",
+        "android_client_info": {
+          "package_name": "com.example.nusatrip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD29QkPyHHOr3FLv8rhWeZUd7nnTweN1p8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

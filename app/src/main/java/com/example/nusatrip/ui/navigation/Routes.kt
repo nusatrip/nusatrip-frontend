@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui.navigation
+package com.example.nusatrip.ui.navigation
 
 /**
  * Object containing all navigation route constants

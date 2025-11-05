@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui.screens.smartplanner
+package com.example.nusatrip.ui.screens.smartplanner
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

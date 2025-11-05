@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui.screens.home
+package com.example.nusatrip.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.painterResource
-import com.example.nusatrip_papb.R
+import com.example.nusatrip.R
 
 data class RecommendationPlace(
     val name: String,

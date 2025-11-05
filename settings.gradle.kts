@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "nusatrip_papb"
+rootProject.name = "nusatrip"
 include(":app")

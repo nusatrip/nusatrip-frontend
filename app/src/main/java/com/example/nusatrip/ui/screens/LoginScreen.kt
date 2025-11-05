@@ -1,5 +1,6 @@
-package com.example.nusatrip_papb.ui.screens.auth
+package com.example.nusatrip.ui.screens.auth
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,25 +21,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.nusatrip_papb.R
-import com.example.nusatrip_papb.viewmodel.AuthViewModel
+import com.example.nusatrip.viewmodel.AuthViewModel
+import com.example.nusatrip.R
 
 @Composable
 fun LoginScreen(
     onNavigateToRegister: () -> Unit,
     onLoginSuccess: () -> Unit,
-    authViewModel: AuthViewModel = viewModel()
+    authViewModel: AuthViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -47,14 +45,14 @@ fun LoginScreen(
     val authState by authViewModel.authState.collectAsState()
     val scrollState = rememberScrollState()
 
-    // Navigate on success
     LaunchedEffect(authState.isSuccess) {
+        Log.d("LoginScreen", "isSuccess: ${authState.isSuccess}, user: ${authState.user}")
         if (authState.isSuccess && authState.user != null) {
+            Log.d("LoginScreen", "Login successful, navigating to home")
             onLoginSuccess()
         }
     }
 
-    // Show error dialog
     if (authState.error != null) {
         AlertDialog(
             onDismissRequest = { authViewModel.resetError() },
@@ -62,35 +60,24 @@ fun LoginScreen(
             text = { Text(authState.error ?: "") },
             confirmButton = {
                 TextButton(onClick = { authViewModel.resetError() }) {
-                    Text("OK")
+                    Text("OK", color = Color(0xFF8B3A3A))
                 }
             }
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Background Image
-        Image(
-            painter = painterResource(id = R.drawable.home_image),
-            contentDescription = "Background",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
-        // Gradient Overlay
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFF8B3A3A).copy(alpha = 0.7f),
-                            Color(0xFF5D2828).copy(alpha = 0.9f)
-                        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFF8B3A3A),
+                        Color(0xFF5D2828)
                     )
                 )
-        )
-
+            )
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -99,16 +86,14 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Logo
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.nusatrip_logo),
                 contentDescription = "NusaTrip Logo",
                 modifier = Modifier
-                    .size(120.dp)
-                    .padding(bottom = 16.dp)
+                    .size(140.dp)
+                    .padding(bottom = 24.dp)
             )
 
-            // App Name
             Text(
                 text = "NusaTrip",
                 fontSize = 36.sp,
@@ -126,7 +111,6 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Login Card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,7 +134,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Email Field
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
@@ -177,7 +160,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Password Field
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
@@ -223,10 +205,10 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Login Button
                     Button(
                         onClick = {
                             if (email.isNotBlank() && password.isNotBlank()) {
+                                Log.d("LoginScreen", "Login button clicked")
                                 authViewModel.login(email, password)
                             }
                         },
@@ -255,7 +237,6 @@ fun LoginScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Register Link
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center

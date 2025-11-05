@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb
+package com.example.nusatrip
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,8 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.example.nusatrip_papb.ui.MainScreen
-import com.example.nusatrip_papb.ui.theme.Nusatrip_papbTheme
+import com.example.nusatrip.ui.MainScreen
+import com.example.nusatrip.ui.theme.Nusatrip_papbTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

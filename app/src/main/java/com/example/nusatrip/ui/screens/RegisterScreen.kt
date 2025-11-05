@@ -1,5 +1,6 @@
-package com.example.nusatrip_papb.ui.screens.auth
+package com.example.nusatrip.ui.screens.auth
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -21,24 +23,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.nusatrip_papb.R
-import com.example.nusatrip_papb.viewmodel.AuthViewModel
+import com.example.nusatrip.viewmodel.AuthViewModel
+import com.example.nusatrip.R
 
 @Composable
 fun RegisterScreen(
     onNavigateToLogin: () -> Unit,
-    onRegisterSuccess: () -> Unit,
-    authViewModel: AuthViewModel = viewModel()
+    authViewModel: AuthViewModel
 ) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -46,18 +46,68 @@ fun RegisterScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
+    var showSuccessDialog by remember { mutableStateOf(false) }
 
     val authState by authViewModel.authState.collectAsState()
     val scrollState = rememberScrollState()
 
-    // Navigate on success
-    LaunchedEffect(authState.isSuccess) {
-        if (authState.isSuccess && authState.user != null) {
-            onRegisterSuccess()
+    LaunchedEffect(authState.isRegistrationComplete) {
+        Log.d("RegisterScreen", "isRegistrationComplete: ${authState.isRegistrationComplete}")
+        if (authState.isRegistrationComplete) {
+            Log.d("RegisterScreen", "Registration successful, showing success dialog")
+            showSuccessDialog = true
         }
     }
 
-    // Show error dialog
+    if (showSuccessDialog) {
+        AlertDialog(
+            onDismissRequest = { },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = "Success",
+                    tint = Color(0xFF4CAF50),
+                    modifier = Modifier.size(64.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = "Registration Successful",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Text(
+                    text = "Your account has been created successfully. Please sign in to continue.",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 22.sp
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        authViewModel.resetAuthState()
+                        onNavigateToLogin()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF8B3A3A)
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Continue to Login",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            },
+            shape = RoundedCornerShape(20.dp)
+        )
+    }
+
     if (authState.error != null) {
         AlertDialog(
             onDismissRequest = { authViewModel.resetError() },
@@ -65,35 +115,24 @@ fun RegisterScreen(
             text = { Text(authState.error ?: "") },
             confirmButton = {
                 TextButton(onClick = { authViewModel.resetError() }) {
-                    Text("OK")
+                    Text("OK", color = Color(0xFF8B3A3A))
                 }
             }
         )
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Background Image
-        Image(
-            painter = painterResource(id = R.drawable.home_image),
-            contentDescription = "Background",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-
-        // Gradient Overlay
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFF8B3A3A).copy(alpha = 0.7f),
-                            Color(0xFF5D2828).copy(alpha = 0.9f)
-                        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFF8B3A3A),
+                        Color(0xFF5D2828)
                     )
                 )
-        )
-
+            )
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -102,16 +141,14 @@ fun RegisterScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Logo
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.nusatrip_logo),
                 contentDescription = "NusaTrip Logo",
                 modifier = Modifier
-                    .size(100.dp)
-                    .padding(bottom = 8.dp)
+                    .size(120.dp)
+                    .padding(bottom = 16.dp)
             )
 
-            // App Name
             Text(
                 text = "NusaTrip",
                 fontSize = 32.sp,
@@ -129,7 +166,6 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Register Card
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -153,7 +189,6 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Name Field
                     OutlinedTextField(
                         value = name,
                         onValueChange = { name = it },
@@ -180,7 +215,6 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Email Field
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
@@ -207,7 +241,6 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Password Field
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
@@ -253,7 +286,6 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Confirm Password Field
                     OutlinedTextField(
                         value = confirmPassword,
                         onValueChange = { confirmPassword = it },
@@ -309,13 +341,13 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Register Button
                     Button(
                         onClick = {
                             if (name.isNotBlank() &&
                                 email.isNotBlank() &&
                                 password.isNotBlank() &&
                                 password == confirmPassword) {
+                                Log.d("RegisterScreen", "Register button clicked")
                                 authViewModel.register(name, email, password)
                             }
                         },
@@ -326,11 +358,7 @@ fun RegisterScreen(
                             containerColor = Color(0xFF8B3A3A)
                         ),
                         shape = RoundedCornerShape(16.dp),
-                        enabled = !authState.isLoading &&
-                                name.isNotBlank() &&
-                                email.isNotBlank() &&
-                                password.isNotBlank() &&
-                                password == confirmPassword
+                        enabled = !authState.isLoading
                     ) {
                         if (authState.isLoading) {
                             CircularProgressIndicator(
@@ -348,7 +376,6 @@ fun RegisterScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Login Link
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center

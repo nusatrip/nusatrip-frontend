@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui.theme
+package com.example.nusatrip.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
