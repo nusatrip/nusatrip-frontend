@@ -79,8 +79,8 @@ dependencies {
     // OkHttp logging interceptor for debugging network calls
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-    // Firebase Bill of Materials (BOM) - manages Firebase library versions
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    // Firebase Bill of Materials (BOM) - UPDATE TO LATEST VERSION
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
 
     // Firebase Authentication - for user authentication
     implementation("com.google.firebase:firebase-auth-ktx")
@@ -88,8 +88,12 @@ dependencies {
     // Firebase Firestore - for cloud database
     implementation("com.google.firebase:firebase-firestore-ktx")
 
+    // Google Play Services - ADD BASE DEPENDENCY
+    implementation("com.google.android.gms:play-services-base:18.5.0")
+
     // Google Play Services Auth - required by Firebase Authentication
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.ai)
 
