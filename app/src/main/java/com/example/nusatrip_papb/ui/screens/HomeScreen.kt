@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -19,14 +21,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.painterResource
 import com.example.nusatrip_papb.R
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+
+data class RecommendationPlace(
+    val name: String,
+    val category: String,
+    val rating: Float,
+    val imageRes: Int
+)
+
+data class CarouselItem(val title: String, val imageRes: Int)
 
 data class RecommendationPlace(
     val name: String,
@@ -76,8 +84,7 @@ fun HomeScreen() {
 
                     IconButton(
                         onClick = { /* TODO: Menu action */ },
-                        modifier = Modifier
-                            .size(40.dp)
+                        modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Menu,
@@ -123,7 +130,7 @@ fun HomeScreen() {
             Spacer(modifier = Modifier.height(40.dp))
 
             // Carousel Section
-            val pagerState = rememberPagerState()
+            val pagerState = rememberPagerState(pageCount = { 4 })
             val carouselItems = listOf(
                 CarouselItem("CELEBRATE INDONESIAN\nDIVERSITY", R.drawable.carousel1),
                 CarouselItem("EMBRACE LOCAL\nCULTURE", R.drawable.carousel2),
@@ -132,13 +139,12 @@ fun HomeScreen() {
             )
 
             HorizontalPager(
-                count = carouselItems.size,
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
                 contentPadding = PaddingValues(horizontal = 40.dp),
-                itemSpacing = 16.dp
+                pageSpacing = 16.dp
             ) { page ->
                 CarouselCard(carouselItems[page])
             }
@@ -166,7 +172,6 @@ fun HomeScreen() {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Recommendation Cards
             val recommendations = listOf(
                 RecommendationPlace("Taman Sari", "History", 4.5f, R.drawable.carousel1),
                 RecommendationPlace("Prambanan Temple", "History", 5f, R.drawable.carousel2),
@@ -196,7 +201,6 @@ fun HomeScreen() {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Best Deal Cards (same as recommendations for demo)
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -211,20 +215,19 @@ fun HomeScreen() {
     }
 }
 
-data class CarouselItem(val title: String, val imageRes: Int)
-
 @Composable
 fun CarouselCard(item: CarouselItem) {
     Card(
         modifier = Modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(16.dp)),
+            .fillMaxWidth()
+            .height(200.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = item.imageRes),
-                contentDescription = null,
+                contentDescription = item.title,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -239,29 +242,15 @@ fun CarouselCard(item: CarouselItem) {
                     )
             )
 
-            Column(
+            Text(
+                text = item.title,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(20.dp)
-            ) {
-                Text(
-                    text = item.title,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    lineHeight = 28.sp
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                OutlinedButton(
-                    onClick = { /* TODO: Start Explore */ },
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(24.dp)
-                ) {
-                    Text("START EXPLORE")
-                }
-            }
+                    .padding(16.dp)
+            )
         }
     }
 }
