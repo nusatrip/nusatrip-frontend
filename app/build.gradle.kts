@@ -2,14 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.nusatrip_papb"
+    namespace = "com.example.nusatrip"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.nusatrip_papb"
+        applicationId = "com.example.nusatrip"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -55,7 +56,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
-    // Foundation for HorizontalPager (already included via BOM)
+    // Foundation for HorizontalPager
     implementation("androidx.compose.foundation:foundation:1.5.4")
 
     // Navigation component for Jetpack Compose
@@ -78,6 +79,24 @@ dependencies {
     // OkHttp logging interceptor for debugging network calls
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
+    // Firebase Bill of Materials (BOM) - UPDATE TO LATEST VERSION
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+
+    // Firebase Authentication - for user authentication
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    // Firebase Firestore - for cloud database
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Google Play Services - ADD BASE DEPENDENCY
+    implementation("com.google.android.gms:play-services-base:18.5.0")
+
+    // Google Play Services Auth - required by Firebase Authentication
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.ai)
+
     // Testing libraries
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -87,3 +106,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
+
+// Apply Google Services plugin - MUST be at the bottom
+apply(plugin = "com.google.gms.google-services")
