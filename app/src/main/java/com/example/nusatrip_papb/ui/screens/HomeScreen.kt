@@ -14,7 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +36,14 @@ data class RecommendationPlace(
 
 data class CarouselItem(val title: String, val imageRes: Int)
 
+data class RecommendationPlace(
+    val name: String,
+    val category: String,
+    val rating: Float,
+    val imageRes: Int
+)
+
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen() {
     val scrollState = rememberScrollState()
