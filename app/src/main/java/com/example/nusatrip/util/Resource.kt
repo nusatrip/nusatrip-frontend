@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.util
+package com.example.nusatrip.util
 
 /**
  * Generic class untuk handling status data (Success, Error, Loading)

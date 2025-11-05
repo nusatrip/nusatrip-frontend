@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui.screens.localconnect
+package com.example.nusatrip.ui.screens.localconnect
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

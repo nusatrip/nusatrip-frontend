@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui.screens.onboarding
+package com.example.nusatrip.ui.screens.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.nusatrip_papb.R
-import com.example.nusatrip_papb.ui.navigation.Routes
+import com.example.nusatrip.ui.navigation.Routes
 import kotlinx.coroutines.launch
+import com.example.nusatrip.R
 
 /**
  * Data class for onboarding page content

@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.util
+package com.example.nusatrip.util
 
 object Constants {
     const val BASE_URL = "https://your-api-url.com/"

@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb.ui
+package com.example.nusatrip.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -22,18 +22,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.nusatrip_papb.ui.navigation.BottomNavItem
-import com.example.nusatrip_papb.ui.navigation.NavGraph
-import com.example.nusatrip_papb.ui.navigation.Routes
-import com.example.nusatrip_papb.ui.screens.home.HomeScreen
-import com.example.nusatrip_papb.ui.screens.localconnect.LocalConnectScreen
-import com.example.nusatrip_papb.ui.screens.profile.ProfileScreen
-import com.example.nusatrip_papb.ui.screens.smartplanner.SmartPlannerScreen
+import com.example.nusatrip.ui.navigation.BottomNavItem
+import com.example.nusatrip.ui.navigation.NavGraph
+import com.example.nusatrip.ui.navigation.Routes
+import com.example.nusatrip.ui.screens.home.HomeScreen
+import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
+import com.example.nusatrip.ui.screens.profile.ProfileScreen
+import com.example.nusatrip.ui.screens.smartplanner.SmartPlannerScreen
+import com.example.nusatrip.viewmodel.AuthViewModel
 
-/**
- * Main screen as root navigation controller
- * Handles main navigation flow: Splash -> Onboarding -> Login -> Main App
- */
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
@@ -41,17 +38,16 @@ fun MainScreen() {
     Surface(color = MaterialTheme.colorScheme.background) {
         NavGraph(
             navController = navController,
-            startDestination = Routes.SPLASH  // Start from splash screen
+            startDestination = Routes.SPLASH
         )
     }
 }
 
-/**
- * Screen dengan Bottom Navigation untuk main app flow
- * Ini adalah screen yang ditampilkan setelah user login
- */
 @Composable
-fun MainBottomNavScreen() {
+fun MainBottomNavScreen(
+    authViewModel: AuthViewModel,
+    onLogout: () -> Unit
+) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -74,15 +70,17 @@ fun MainBottomNavScreen() {
                 SmartPlannerScreen()
             }
             composable(Routes.PROFILE) {
-                ProfileScreen()
+                ProfileScreen(
+                    onLogout = {
+                        authViewModel.logout()
+                        onLogout()
+                    }
+                )
             }
         }
     }
 }
 
-/**
- * Bottom Navigation Bar Component
- */
 @Composable
 private fun BottomNavigationBar(
     navController: NavHostController
@@ -121,13 +119,10 @@ private fun BottomNavigationBar(
                 } == true,
                 onClick = {
                     navController.navigate(item.route) {
-                        // Pop up to the start destination
                         popUpTo(Routes.HOME) {
                             saveState = true
                         }
-                        // Avoid multiple copies of the same destination
                         launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
                         restoreState = true
                     }
                 },

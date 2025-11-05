@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb
+package com.example.nusatrip
 
 import org.junit.Test
 

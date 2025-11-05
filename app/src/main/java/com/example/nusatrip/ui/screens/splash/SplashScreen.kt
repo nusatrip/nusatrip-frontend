@@ -1,11 +1,10 @@
-package com.example.nusatrip_papb.ui.screens.splash
+package com.example.nusatrip.ui.screens.splash
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -16,15 +15,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.nusatrip_papb.R
-import com.example.nusatrip_papb.ui.navigation.Routes
+import com.example.nusatrip.ui.navigation.Routes
+import com.example.nusatrip.viewmodel.AuthViewModel
 import kotlinx.coroutines.delay
+import com.example.nusatrip.R
 
-/**
- * Initial splash screen with logo animation
- */
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(
+    navController: NavController,
+    authViewModel: AuthViewModel
+) {
     val alpha = remember { Animatable(0f) }
 
     LaunchedEffect(Unit) {
@@ -33,8 +33,15 @@ fun SplashScreen(navController: NavController) {
             animationSpec = tween(durationMillis = 1500)
         )
         delay(2000)
-        navController.navigate(Routes.ONBOARDING) {
-            popUpTo(Routes.SPLASH) { inclusive = true }
+
+        if (authViewModel.isUserLoggedIn()) {
+            navController.navigate(Routes.MAIN) {
+                popUpTo(Routes.SPLASH) { inclusive = true }
+            }
+        } else {
+            navController.navigate(Routes.ONBOARDING) {
+                popUpTo(Routes.SPLASH) { inclusive = true }
+            }
         }
     }
 
@@ -44,7 +51,6 @@ fun SplashScreen(navController: NavController) {
             .background(Color(0xFF8B3A3A)),
         contentAlignment = Alignment.Center
     ) {
-        // Single logo image (logo + text combined)
         Image(
             painter = painterResource(id = R.drawable.nusatrip_logo_text),
             contentDescription = "NusaTrip Logo",

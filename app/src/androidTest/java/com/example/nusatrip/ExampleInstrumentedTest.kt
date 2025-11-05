@@ -1,4 +1,4 @@
-package com.example.nusatrip_papb
+package com.example.nusatrip
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
