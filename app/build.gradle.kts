@@ -57,45 +57,42 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     // Foundation for HorizontalPager
-    implementation("androidx.compose.foundation:foundation:1.5.4")
-
-    // Navigation component for Jetpack Compose
-    implementation("androidx.navigation:navigation-compose:2.7.6")
-
-    // Lifecycle and ViewModel components for Compose
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation(libs.androidx.compose.foundation)
 
     // Material Design icons extended library
-    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    // Navigation component for Jetpack Compose
+    implementation(libs.androidx.navigation.compose)
+
+    // Lifecycle and ViewModel components for Compose
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Retrofit for network operations
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // Kotlin Coroutines for asynchronous operations
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     // OkHttp logging interceptor for debugging network calls
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.logging.interceptor)
 
-    // Firebase Bill of Materials (BOM) - UPDATE TO LATEST VERSION
-    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
-
-    // Firebase Authentication - for user authentication
-    implementation("com.google.firebase:firebase-auth-ktx")
-
-    // Firebase Firestore - for cloud database
-    implementation("com.google.firebase:firebase-firestore-ktx")
-
-    // Google Play Services - ADD BASE DEPENDENCY
-    implementation("com.google.android.gms:play-services-base:18.5.0")
-
-    // Google Play Services Auth - required by Firebase Authentication
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
-
+    // Firebase Dependencies
+    implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.ai)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(platform(libs.firebase.bom))
+
+    // Google Play Services
+    implementation(libs.play.services.base)
+    implementation(libs.play.services.auth)
+
+    // Kotlin Coroutines for asynchronous operations
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Accompanist libraries for pager
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 
     // Testing libraries
     testImplementation(libs.junit)

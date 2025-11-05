@@ -25,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nusatrip.ui.navigation.BottomNavItem
 import com.example.nusatrip.ui.navigation.NavGraph
 import com.example.nusatrip.ui.navigation.Routes
-import com.example.nusatrip.ui.screens.home.HomeScreen
+import com.example.nusatrip.ui.screens.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.profile.ProfileScreen
 import com.example.nusatrip.ui.screens.smartplanner.SmartPlannerScreen
