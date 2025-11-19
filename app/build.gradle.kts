@@ -93,6 +93,7 @@ dependencies {
     // Accompanist libraries for pager
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
+    implementation(libs.androidx.foundation)
 
     // Testing libraries
     testImplementation(libs.junit)
