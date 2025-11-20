@@ -28,7 +28,8 @@ import com.example.nusatrip.ui.navigation.Routes
 import com.example.nusatrip.ui.screens.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.profile.ProfileScreen
-import com.example.nusatrip.ui.screens.smartplanner.SmartPlannerScreen
+import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
+import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
 import com.example.nusatrip.viewmodel.AuthViewModel
 
 @Composable
@@ -67,7 +68,12 @@ fun MainBottomNavScreen(
                 LocalConnectScreen()
             }
             composable(Routes.SMART_PLANNER) {
-                SmartPlannerScreen()
+                PlanListScreen(
+                    navController = navController,
+                )
+            }
+            composable(Routes.ITINERARY) {
+                ItineraryScreen(navController = navController)
             }
             composable(Routes.PROFILE) {
                 ProfileScreen(
