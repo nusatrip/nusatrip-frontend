@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.nusatrip"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -94,6 +94,12 @@ dependencies {
     implementation(libs.accompanist.pager)
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.ui.unit)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     // Testing libraries
     testImplementation(libs.junit)
