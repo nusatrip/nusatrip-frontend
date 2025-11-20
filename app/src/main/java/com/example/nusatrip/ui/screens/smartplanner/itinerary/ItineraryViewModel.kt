@@ -1,7 +1,7 @@
 package com.example.nusatrip.ui.screens.smartplanner.itinerary
 
 import androidx.lifecycle.ViewModel
-import com.example.nusatrip.data.model.Itinerary
+import com.example.nusatrip.domain.model.Itinerary
 import java.net.URI
 import java.time.LocalDate
 import java.time.LocalDateTime
