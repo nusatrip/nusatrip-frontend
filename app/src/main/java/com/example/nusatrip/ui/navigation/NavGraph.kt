@@ -7,8 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.nusatrip.ui.MainBottomNavScreen
-import com.example.nusatrip.ui.screens.auth.LoginScreen
-import com.example.nusatrip.ui.screens.auth.RegisterScreen
+import com.example.nusatrip.ui.screens.auth.login.LoginScreen
+import com.example.nusatrip.ui.screens.auth.register.RegisterScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
 import com.example.nusatrip.ui.screens.splash.SplashScreen
 import com.example.nusatrip.viewmodel.AuthViewModel

@@ -1,4 +1,4 @@
-package com.example.nusatrip.data.model
+package com.example.nusatrip.domain.model
 
 import java.net.URI
 import java.time.LocalDate
