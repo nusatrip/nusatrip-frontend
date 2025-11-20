@@ -1,7 +1,6 @@
 package com.example.nusatrip.ui.screens.smartplanner.itinerary
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
+import com.example.nusatrip.ui.components.TagChip
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -74,23 +74,6 @@ fun ScheduleItem(timeText: String, title: String, description: String) {
             }
         }
         HorizontalDivider(thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(top = 8.dp))
-    }
-}
-
-@Composable
-fun TagChip(text: String) {
-    Row(
-        modifier = Modifier
-            .border(width = 1.dp, color = Color(0xFF10367D), shape = RoundedCornerShape(100))
-            .padding(horizontal = 12.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = text,
-            style = TextStyle(
-                fontSize = 14.sp,
-                color = Color(0xFF10367D)
-            )
-        )
     }
 }
 
