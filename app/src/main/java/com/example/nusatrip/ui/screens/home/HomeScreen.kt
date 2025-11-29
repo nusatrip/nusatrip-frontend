@@ -30,21 +30,10 @@ import androidx.compose.ui.res.painterResource
 import com.example.nusatrip.R
 import com.example.nusatrip.ui.navigation.Routes
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.example.nusatrip.data.dummy.DummyData
+import com.example.nusatrip.domain.model.Place
 
 data class CarouselItem(val title: String, val imageRes: Int)
-
-data class RecommendationPlace(
-    val name: String,
-    val category: String,
-    val rating: Float,
-    val imageRes: Int
-)
-
-data class LocalPlace(
-    val name: String,
-    val category: String,
-    val imageRes: Int
-)
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -168,19 +157,14 @@ fun HomeScreen(navController: androidx.navigation.NavController) {
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF8B3A3A)
                 )
-                TextButton(onClick = {/*navController.navigate(Routes.EXPLORE_PAGE)*/}) {
+                TextButton(onClick = {navController.navigate(Routes.EXPLORE_PAGE)}) {
                     Text("View All", color = Color(0xFF8B3A3A))
                 }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            val exploreRecommendations = listOf(
-                RecommendationPlace("Taman Sari", "History", 4.5f, R.drawable.carousel1),
-                RecommendationPlace("Prambanan Temple", "History", 5f, R.drawable.carousel2),
-                RecommendationPlace("Taman Sari", "History", 4.5f, R.drawable.carousel3),
-                RecommendationPlace("Prambanan Temple", "History", 5f, R.drawable.carousel4)
-            )
+            val exploreRecommendations = DummyData.getExploreRecommendations().take(3)
 
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 24.dp),
@@ -212,11 +196,7 @@ fun HomeScreen(navController: androidx.navigation.NavController) {
                 }
             }
 
-            val localFavorites = listOf(
-                LocalPlace("Gudeg Yu Djum", "Culinary", R.drawable.localculinary1),
-                LocalPlace("Batik Winotosastro", "Souvenir", R.drawable.localbussiness1),
-                LocalPlace("Sate Klathak Pak Pong", "Culinary", R.drawable.localculinary1),
-            )
+            val localFavorites = DummyData.getLocalFavorites().take(3)
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -275,7 +255,7 @@ fun CarouselCard(item: CarouselItem) {
 }
 
 @Composable
-fun RecommendationCard(place: RecommendationPlace) {
+fun RecommendationCard(place: Place) {
     Card(
         modifier = Modifier
             .width(200.dp)
@@ -339,7 +319,7 @@ fun RecommendationCard(place: RecommendationPlace) {
 }
 
 @Composable
-fun LocalConnectCard(place: LocalPlace) {
+fun LocalConnectCard(place: Place) {
     Card(
         modifier = Modifier
             .width(200.dp)
