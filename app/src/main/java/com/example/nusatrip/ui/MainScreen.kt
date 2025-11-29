@@ -17,46 +17,59 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusatrip.ui.navigation.BottomNavItem
 import com.example.nusatrip.ui.navigation.NavGraph
 import com.example.nusatrip.ui.navigation.Routes
-import com.example.nusatrip.viewmodel.AuthViewModel
 
+/**
+ * The main entry point for the UI.
+ * This component handles the global scaffold and conditional bottom navigation visibility.
+ */
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
 
-    Surface(color = MaterialTheme.colorScheme.background) {
-        NavGraph(
-            navController = navController,
-            startDestination = Routes.SPLASH
-        )
-    }
-}
+    // 1. Observe the current back stack entry to determine the active route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
-@Composable
-fun MainBottomNavScreen(
-    authViewModel: AuthViewModel,
-    onLogout: () -> Unit
-) {
-    val navController = rememberNavController()
+    // 2. Define which routes should display the Bottom Bar
+    val bottomBarRoutes = listOf(
+        Routes.HOME,
+        Routes.LOCAL_CONNECT,
+        Routes.SMART_PLANNER,
+        Routes.PROFILE
+    )
+
+    // 3. Determine visibility based on the current route
+    val shouldShowBottomBar = currentRoute in bottomBarRoutes
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController)
+            if (shouldShowBottomBar) {
+                BottomNavigationBar(navController = navController)
+            }
         }
     ) { paddingValues ->
-        NavGraph(
-            navController = navController,
-            startDestination = Routes.HOME,
-            modifier = Modifier.padding(paddingValues)
-        )
+        Surface(
+            modifier = Modifier.padding(paddingValues),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NavGraph(
+                navController = navController,
+                startDestination = Routes.SPLASH
+            )
+        }
     }
 }
 
+/**
+ * Private helper component for the Bottom Navigation Bar.
+ */
 @Composable
 private fun BottomNavigationBar(
     navController: NavHostController
@@ -90,23 +103,22 @@ private fun BottomNavigationBar(
 
         bottomNavItems.forEach { item ->
             NavigationBarItem(
-                selected = currentDestination?.hierarchy?.any {
-                    it.route == item.route
-                } == true,
+                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 onClick = {
                     navController.navigate(item.route) {
-                        popUpTo(Routes.HOME) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
+                        // Avoid multiple copies of the same destination
                         launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
                         restoreState = true
                     }
                 },
                 icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.label
-                    )
+                    Icon(imageVector = item.icon, contentDescription = item.label)
                 },
                 label = {
                     Text(text = item.label)
