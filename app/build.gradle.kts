@@ -100,6 +100,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.unit)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // Testing libraries
     testImplementation(libs.junit)

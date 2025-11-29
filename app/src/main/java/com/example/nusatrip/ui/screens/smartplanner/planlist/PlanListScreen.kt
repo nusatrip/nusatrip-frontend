@@ -25,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,11 +57,11 @@ fun PlanListScreen(
                 .padding(horizontal = 16.dp)
         ) {
             val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
+            val planList by viewModel.planList.collectAsState()
 
-            if (!viewModel.planList.isNullOrEmpty()) {
-                val planList = viewModel.planList!!
+            if (planList.isNotEmpty()) {
                 LazyColumn {
-                    items(planList) { item ->
+                    items(items = planList) { item ->
                         PlanCard(
                             title = item.title,
                             startDateText = item.startDate.format(dateFormatter),
