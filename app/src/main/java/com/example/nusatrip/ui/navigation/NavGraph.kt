@@ -6,12 +6,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.nusatrip.ui.MainBottomNavScreen
 import com.example.nusatrip.ui.screens.auth.login.LoginScreen
 import com.example.nusatrip.ui.screens.auth.register.RegisterScreen
 import com.example.nusatrip.ui.screens.home.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
+import com.example.nusatrip.ui.screens.profile.ProfileRoute
 import com.example.nusatrip.ui.screens.profile.ProfileScreen
 import com.example.nusatrip.ui.screens.smartplanner.generateplan.GeneratePlanScreen
 import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
@@ -46,7 +46,7 @@ fun NavGraph(
         composable(route = Routes.LOGIN) {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(Routes.MAIN) {
+                    navController.navigate(Routes.HOME) {
                         popUpTo(Routes.LOGIN) { inclusive = true }
                     }
                 },
@@ -69,9 +69,6 @@ fun NavGraph(
             )
         }
 
-        composable(route = Routes.SMART_PLANNER) {
-            PlanListScreen(navController)
-        }
 
         composable(Routes.HOME) {
             HomeScreen()
@@ -80,31 +77,28 @@ fun NavGraph(
         composable(Routes.LOCAL_CONNECT) {
             LocalConnectScreen()
         }
-        composable(Routes.SMART_PLANNER) {
-            PlanListScreen(
-                navController = navController,
-            )
+
+        composable(route = Routes.SMART_PLANNER) {
+            PlanListScreen(navController = navController)
         }
+
         composable(Routes.GENERATE_PLAN) {
             GeneratePlanScreen(navController = navController)
         }
+
         composable(Routes.ITINERARY) {
             ItineraryScreen(navController = navController)
         }
+
         composable(Routes.PROFILE) {
-            ProfileScreen(
-                onLogout = {
-                    authViewModel.logout()
-                    // TODO: implement onLogout
-                }
-            )
-        }
-        composable(route = Routes.MAIN) {
-            MainBottomNavScreen(
+            // Using the Stateful Route created previously
+            ProfileRoute(
                 authViewModel = authViewModel,
                 onLogout = {
+                    authViewModel.logout()
                     navController.navigate(Routes.LOGIN) {
                         popUpTo(0) { inclusive = true }
+                        launchSingleTop = true
                     }
                 }
             )

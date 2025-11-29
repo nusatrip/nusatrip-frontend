@@ -42,7 +42,7 @@ fun GeneratePlanScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp, vertical = 24.dp)
+                .padding(horizontal = 24.dp)
         ) {
             // Travel Destination
             SectionTitle("Travel Destinition")
