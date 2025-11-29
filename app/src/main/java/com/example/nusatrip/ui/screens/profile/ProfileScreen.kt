@@ -102,9 +102,6 @@ fun ProfileScreen(
                         )
                     )
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
-                )
             )
         },
         containerColor = BackgroundColor
