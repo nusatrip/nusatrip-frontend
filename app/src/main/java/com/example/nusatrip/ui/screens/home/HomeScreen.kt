@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.example.nusatrip.ui.screens
+package com.example.nusatrip.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
