@@ -18,18 +18,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nusatrip.ui.navigation.BottomNavItem
 import com.example.nusatrip.ui.navigation.NavGraph
 import com.example.nusatrip.ui.navigation.Routes
-import com.example.nusatrip.ui.screens.home.HomeScreen
-import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
-import com.example.nusatrip.ui.screens.profile.ProfileScreen
-import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
-import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
 import com.example.nusatrip.viewmodel.AuthViewModel
 
 @Composable
@@ -56,34 +49,11 @@ fun MainBottomNavScreen(
             BottomNavigationBar(navController = navController)
         }
     ) { paddingValues ->
-        NavHost(
+        NavGraph(
             navController = navController,
             startDestination = Routes.HOME,
             modifier = Modifier.padding(paddingValues)
-        ) {
-            composable(Routes.HOME) {
-                HomeScreen()
-            }
-            composable(Routes.LOCAL_CONNECT) {
-                LocalConnectScreen()
-            }
-            composable(Routes.SMART_PLANNER) {
-                PlanListScreen(
-                    navController = navController,
-                )
-            }
-            composable(Routes.ITINERARY) {
-                ItineraryScreen(navController = navController)
-            }
-            composable(Routes.PROFILE) {
-                ProfileScreen(
-                    onLogout = {
-                        authViewModel.logout()
-                        onLogout()
-                    }
-                )
-            }
-        }
+        )
     }
 }
 

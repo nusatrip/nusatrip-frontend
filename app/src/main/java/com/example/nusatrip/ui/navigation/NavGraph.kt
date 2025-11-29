@@ -9,7 +9,12 @@ import androidx.navigation.compose.composable
 import com.example.nusatrip.ui.MainBottomNavScreen
 import com.example.nusatrip.ui.screens.auth.login.LoginScreen
 import com.example.nusatrip.ui.screens.auth.register.RegisterScreen
+import com.example.nusatrip.ui.screens.home.HomeScreen
+import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
+import com.example.nusatrip.ui.screens.profile.ProfileScreen
+import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
+import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
 import com.example.nusatrip.ui.screens.splash.SplashScreen
 import com.example.nusatrip.viewmodel.AuthViewModel
 
@@ -63,6 +68,33 @@ fun NavGraph(
             )
         }
 
+        composable(route = Routes.SMART_PLANNER) {
+            PlanListScreen(navController)
+        }
+
+        composable(Routes.HOME) {
+            HomeScreen()
+        }
+
+        composable(Routes.LOCAL_CONNECT) {
+            LocalConnectScreen()
+        }
+        composable(Routes.SMART_PLANNER) {
+            PlanListScreen(
+                navController = navController,
+            )
+        }
+        composable(Routes.ITINERARY) {
+            ItineraryScreen(navController = navController)
+        }
+        composable(Routes.PROFILE) {
+            ProfileScreen(
+                onLogout = {
+                    authViewModel.logout()
+                    // TODO: implement onLogout
+                }
+            )
+        }
         composable(route = Routes.MAIN) {
             MainBottomNavScreen(
                 authViewModel = authViewModel,
