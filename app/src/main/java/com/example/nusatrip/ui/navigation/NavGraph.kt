@@ -78,7 +78,7 @@ fun NavGraph(
         // --- Main App Feature Flows (Bottom Bar visible) ---
 
         composable(Routes.HOME) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
 
         composable(Routes.LOCAL_CONNECT) {

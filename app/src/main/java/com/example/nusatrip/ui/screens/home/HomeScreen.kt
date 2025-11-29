@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.painterResource
 import com.example.nusatrip.R
+import com.example.nusatrip.ui.navigation.Routes
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 data class CarouselItem(val title: String, val imageRes: Int)
@@ -39,9 +40,15 @@ data class RecommendationPlace(
     val imageRes: Int
 )
 
+data class LocalPlace(
+    val name: String,
+    val category: String,
+    val imageRes: Int
+)
+
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: androidx.navigation.NavController) {
     val scrollState = rememberScrollState()
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -156,19 +163,19 @@ fun HomeScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Recommendation For You",
+                    text = "Explore",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF8B3A3A)
                 )
-                TextButton(onClick = { /* TODO: View All */ }) {
+                TextButton(onClick = {/*navController.navigate(Routes.EXPLORE_PAGE)*/}) {
                     Text("View All", color = Color(0xFF8B3A3A))
                 }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            val recommendations = listOf(
+            val exploreRecommendations = listOf(
                 RecommendationPlace("Taman Sari", "History", 4.5f, R.drawable.carousel1),
                 RecommendationPlace("Prambanan Temple", "History", 5f, R.drawable.carousel2),
                 RecommendationPlace("Taman Sari", "History", 4.5f, R.drawable.carousel3),
@@ -179,20 +186,36 @@ fun HomeScreen() {
                 contentPadding = PaddingValues(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(recommendations) { place ->
+                items(exploreRecommendations) { place ->
                     RecommendationCard(place)
                 }
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Best Deal Section
-            Text(
-                text = "Best Deal For You",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF8B3A3A),
-                modifier = Modifier.padding(horizontal = 24.dp)
+            // Local Connect Section
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Local Favorites",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF8B3A3A)
+                )
+                TextButton(onClick = {navController.navigate(Routes.LOCAL_CONNECT)}) {
+                    Text("View All", color = Color(0xFF8B3A3A))
+                }
+            }
+
+            val localFavorites = listOf(
+                LocalPlace("Gudeg Yu Djum", "Culinary", R.drawable.localculinary1),
+                LocalPlace("Batik Winotosastro", "Souvenir", R.drawable.localbussiness1),
+                LocalPlace("Sate Klathak Pak Pong", "Culinary", R.drawable.localculinary1),
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -201,8 +224,8 @@ fun HomeScreen() {
                 contentPadding = PaddingValues(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(recommendations) { place ->
-                    RecommendationCard(place)
+                items(localFavorites) { place ->
+                    LocalConnectCard(place)
                 }
             }
 
@@ -310,6 +333,54 @@ fun RecommendationCard(place: RecommendationPlace) {
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun LocalConnectCard(place: LocalPlace) {
+    Card(
+        modifier = Modifier
+            .width(200.dp)
+            .height(150.dp)
+            .clip(RoundedCornerShape(16.dp)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = place.imageRes),
+                contentDescription = place.name,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
+                        )
+                    )
+            )
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(12.dp)
+            ) {
+                Text(
+                    text = place.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Text(
+                    text = place.category,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.White.copy(alpha = 0.8f)
+                )
             }
         }
     }
