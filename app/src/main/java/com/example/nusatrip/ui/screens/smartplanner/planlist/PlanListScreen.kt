@@ -12,12 +12,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -65,8 +67,6 @@ fun PlanListScreen(
             // Generate New Plan Button
             Button(
                 onClick = {
-                    // TODO: Implement your "Generate New Plan" logic here.
-                    // This might involve calling a ViewModel function or showing a dialog.
                     navController.navigate(Routes.GENERATE_PLAN)
                 },
                 modifier = Modifier
@@ -74,13 +74,25 @@ fun PlanListScreen(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF7F1D1D)
                 ),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(32.dp)
             ) {
-                Text(
-                    text = "Generate New Plan",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Create Plan",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = "Generate New Plan",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
             }
         }
     ) { paddingValues ->
