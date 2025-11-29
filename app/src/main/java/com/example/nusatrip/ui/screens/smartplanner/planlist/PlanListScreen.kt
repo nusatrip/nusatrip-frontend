@@ -39,8 +39,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.nusatrip.data.repository.PlanRepositoryImpl
+import com.example.nusatrip.domain.model.Plan
 import com.example.nusatrip.ui.components.TagChip
 import com.example.nusatrip.ui.navigation.Routes
+import com.example.nusatrip.util.Resource
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -52,6 +54,24 @@ fun PlanListScreen(
         factory = PlanListViewModelFactory(repo)
     )
 
+    val state by viewModel.uiState.collectAsState()
+
+    when (state) {
+        is Resource.Error -> {
+            Text("Error")
+        }
+        Resource.Loading -> {
+            Text("Loading")
+        }
+        is Resource.Success -> {
+            val planList = (state as Resource.Success).data
+            SuccessView(navController = navController, data = planList)
+        }
+    }
+}
+
+@Composable
+private fun SuccessView(navController: NavController,data: List<Plan>) {
     Scaffold(
         topBar = { TopBar(navController) }
     ) { padding -> // Content
@@ -62,11 +82,10 @@ fun PlanListScreen(
                 .padding(horizontal = 16.dp)
         ) {
             val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
-            val planList by viewModel.planList.collectAsState()
 
-            if (planList.isNotEmpty()) {
+            if (data.isNotEmpty()) {
                 LazyColumn {
-                    items(items = planList) { item ->
+                    items(items = data) { item ->
                         PlanCard(
                             title = item.title,
                             startDateText = item.startDate.format(dateFormatter),
