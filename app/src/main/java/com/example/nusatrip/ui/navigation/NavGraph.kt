@@ -17,22 +17,19 @@ import com.example.nusatrip.ui.screens.home.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
 import com.example.nusatrip.ui.screens.profile.ProfileRoute
+import com.example.nusatrip.ui.screens.profile.ProfileScreen
+import com.example.nusatrip.ui.screens.smartplanner.generateplan.GeneratePlanScreen
 import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
 import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
 import com.example.nusatrip.ui.screens.splash.SplashScreen
 import com.example.nusatrip.viewmodel.AuthViewModel
 
-/**
- * The central Navigation Graph for the application.
- * Defines all reachable destinations and their navigation logic.
- */
 @Composable
 fun NavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String = Routes.SPLASH
 ) {
-    // Shared ViewModel instance scoped to the navigation graph
     val authViewModel: AuthViewModel = viewModel()
 
     NavHost(
@@ -40,8 +37,6 @@ fun NavGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        // --- Authentication & Onboarding Flows ---
-
         composable(route = Routes.SPLASH) {
             SplashScreen(
                 navController = navController,
@@ -56,7 +51,6 @@ fun NavGraph(
         composable(route = Routes.LOGIN) {
             LoginScreen(
                 onLoginSuccess = {
-                    // Navigate directly to HOME (not MAIN), clearing the login screen from backstack
                     navController.navigate(Routes.HOME) {
                         popUpTo(Routes.LOGIN) { inclusive = true }
                     }
@@ -80,7 +74,6 @@ fun NavGraph(
             )
         }
 
-        // --- Main App Feature Flows (Bottom Bar visible) ---
 
         composable(Routes.HOME) {
             HomeScreen(navController = navController)
@@ -94,6 +87,10 @@ fun NavGraph(
             PlanListScreen(navController = navController)
         }
 
+        composable(Routes.GENERATE_PLAN) {
+            GeneratePlanScreen(navController = navController)
+        }
+
         composable(Routes.ITINERARY) {
             ItineraryScreen(navController = navController)
         }
@@ -104,7 +101,6 @@ fun NavGraph(
                 authViewModel = authViewModel,
                 onLogout = {
                     authViewModel.logout()
-                    // CRITICAL: Navigate to LOGIN and clear the entire backstack
                     navController.navigate(Routes.LOGIN) {
                         popUpTo(0) { inclusive = true }
                         launchSingleTop = true

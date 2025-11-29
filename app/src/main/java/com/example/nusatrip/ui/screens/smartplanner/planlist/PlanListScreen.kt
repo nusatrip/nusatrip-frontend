@@ -1,24 +1,30 @@
 package com.example.nusatrip.ui.screens.smartplanner.planlist
 
+import android.widget.Spinner
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,8 +45,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.nusatrip.data.repository.PlanRepositoryImpl
+import com.example.nusatrip.domain.model.Plan
 import com.example.nusatrip.ui.components.TagChip
 import com.example.nusatrip.ui.navigation.Routes
+import com.example.nusatrip.util.Resource
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -52,54 +60,93 @@ fun PlanListScreen(
         factory = PlanListViewModelFactory(repo)
     )
 
+    val state by viewModel.uiState.collectAsState()
     Scaffold(
-        topBar = { TopBar(navController) }
-    ) { padding -> // Content
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(padding)
-                .padding(horizontal = 16.dp)
-        ) {
-            val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
-            val planList by viewModel.planList.collectAsState()
-
-            if (planList.isNotEmpty()) {
-                LazyColumn {
-                    items(items = planList) { item ->
-                        PlanCard(
-                            title = item.title,
-                            startDateText = item.startDate.format(dateFormatter),
-                            endDateText = item.endDate.format(dateFormatter),
-                            tags = item.tags,
-                            coverUrl = item.imageUri.toString(),
-                            onClick = { navController.navigate(Routes.ITINERARY) })
-                    }
-                }
-            }
-
-
+        topBar = { TopBar(navController) },
+        floatingActionButton = {
             // Generate New Plan Button
             Button(
                 onClick = {
-                    // TODO: Implement your "Generate New Plan" logic here.
-                    // This might involve calling a ViewModel function or showing a dialog.
+                    navController.navigate(Routes.GENERATE_PLAN)
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF7F1D1D)
                 ),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(32.dp)
             ) {
-                Text(
-                    text = "Generate New Plan",
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Create Plan",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Text(
+                        text = "Generate New Plan",
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
             }
         }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier.padding(paddingValues),
+        ) {
+            when (state) {
+                is Resource.Error -> {
+                    Text("Error")
+                }
+                Resource.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+                }
+                is Resource.Success -> {
+                    val planList = (state as Resource.Success).data
+                    SuccessView(navController = navController, data = planList)
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
+private fun SuccessView(navController: NavController,data: List<Plan>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
+
+
+
+        if (data.isNotEmpty()) {
+            LazyColumn {
+                items(items = data) { item ->
+                    PlanCard(
+                        title = item.title,
+                        startDateText = item.startDate.format(dateFormatter),
+                        endDateText = item.endDate.format(dateFormatter),
+                        tags = item.tags,
+                        coverUrl = item.imageUri.toString(),
+                        onClick = { navController.navigate(Routes.ITINERARY) })
+                }
+            }
+        }
+
+
+
     }
 }
 

@@ -13,6 +13,7 @@ object Routes {
     const val HOME = "home"
     const val LOCAL_CONNECT = "localconnect"
     const val SMART_PLANNER = "smartplanner"
+    const val GENERATE_PLAN = "generate_plan"
     const val PROFILE = "profile"
     const val ITINERARY = "itinerary"
 
