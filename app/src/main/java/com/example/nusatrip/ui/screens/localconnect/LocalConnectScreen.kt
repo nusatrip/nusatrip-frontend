@@ -18,8 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nusatrip.R
+import com.example.nusatrip.domain.model.LocalBusiness
+import com.example.nusatrip.domain.model.LocalConnectType
+import com.example.nusatrip.domain.model.LocalCulinary
+import com.example.nusatrip.domain.model.LocalTourGuide
 import com.example.nusatrip.ui.screens.localconnect.components.*
-import com.example.nusatrip.ui.screens.localconnect.models.*
 
 @Composable
 fun LocalConnectScreen(

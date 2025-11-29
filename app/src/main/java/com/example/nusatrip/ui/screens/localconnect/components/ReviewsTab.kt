@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.nusatrip.ui.screens.localconnect.models.Review
+import com.example.nusatrip.domain.model.Review
 
 @Composable
 fun ReviewsTab(reviews: List<Review>, totalReviews: Int) {

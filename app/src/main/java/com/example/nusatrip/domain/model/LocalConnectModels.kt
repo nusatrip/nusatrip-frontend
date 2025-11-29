@@ -1,4 +1,4 @@
-package com.example.nusatrip.ui.screens.localconnect.models
+package com.example.nusatrip.domain.model
 
 data class LocalBusiness(
     val id: String = "",

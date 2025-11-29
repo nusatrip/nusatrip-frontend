@@ -9,15 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res. painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.nusatrip.ui.screens.localconnect.models.LocalCulinary
+import com.example.nusatrip.domain.model.LocalBusiness
 
 @Composable
-fun LocalCulinaryCard(
-    culinary: LocalCulinary,
+fun LocalBusinessCard(
+    business: LocalBusiness,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -29,11 +29,11 @@ fun LocalCulinaryCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier. fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = culinary.imageRes),
-                contentDescription = culinary.name,
+                painter = painterResource(id = business.imageRes),
+                contentDescription = business.name,
                 modifier = Modifier
                     .width(120.dp)
                     .fillMaxHeight(),
@@ -43,34 +43,34 @@ fun LocalCulinaryCard(
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight()
+                    . fillMaxHeight()
                     .padding(12.dp)
             ) {
                 Column(
-                    modifier = Modifier.align(Alignment.TopStart)
+                    modifier = Modifier. align(Alignment.TopStart)
                 ) {
                     Text(
-                        text = culinary.name,
+                        text = business.name,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color. Black
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier. height(4.dp))
                     Text(
-                        text = culinary.description,
+                        text = business.description,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = culinary.hours,
-                        style = MaterialTheme.typography.bodySmall,
+                        text = business.hours,
+                        style = MaterialTheme.typography. bodySmall,
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = culinary.address,
-                        style = MaterialTheme.typography.bodySmall,
+                        text = business.address,
+                        style = MaterialTheme.typography. bodySmall,
                         color = Color.Gray
                     )
                 }

@@ -15,16 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nusatrip.R
 import com.example.nusatrip.ui.screens.localconnect.components.OverviewTab
 import com.example.nusatrip.ui.screens.localconnect.components.ReviewsTab
-import com.example.nusatrip.ui.screens.localconnect.models.LocalConnectDetail
-import com.example.nusatrip.ui.screens.localconnect.models.LocalConnectType
-import com.example.nusatrip.ui.screens.localconnect.models.Review
+import com.example.nusatrip.domain.model.LocalConnectDetail
+import com.example.nusatrip.domain.model.LocalConnectType
+import com.example.nusatrip.domain.model.Review
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

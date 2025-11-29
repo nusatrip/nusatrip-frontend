@@ -13,11 +13,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.nusatrip.ui.screens.localconnect.models.LocalBusiness
+import com.example.nusatrip.domain.model.LocalCulinary
 
 @Composable
-fun LocalBusinessCard(
-    business: LocalBusiness,
+fun LocalCulinaryCard(
+    culinary: LocalCulinary,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -32,8 +32,8 @@ fun LocalBusinessCard(
             modifier = Modifier.fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = business.imageRes),
-                contentDescription = business.name,
+                painter = painterResource(id = culinary.imageRes),
+                contentDescription = culinary.name,
                 modifier = Modifier
                     .width(120.dp)
                     .fillMaxHeight(),
@@ -50,26 +50,26 @@ fun LocalBusinessCard(
                     modifier = Modifier.align(Alignment.TopStart)
                 ) {
                     Text(
-                        text = business.name,
+                        text = culinary.name,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = business.description,
+                        text = culinary.description,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = business.hours,
+                        text = culinary.hours,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = business.address,
+                        text = culinary.address,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )

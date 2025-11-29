@@ -19,7 +19,7 @@ object Routes {
 
     /**
      * Helper function to create detail route with parameters
-     * @param detailId The ID of the item (business_1, culinary_1, etc.)
+     * @param detailId The ID of the item
      * @param detailType The type of item (BUSINESS, CULINARY, TOUR_GUIDE)
      * @return Formatted route string
      */
