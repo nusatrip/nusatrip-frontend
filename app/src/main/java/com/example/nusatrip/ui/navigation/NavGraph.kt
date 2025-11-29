@@ -4,10 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.nusatrip.ui.screens.auth.login.LoginScreen
 import com.example.nusatrip.ui.screens.auth.register.RegisterScreen
+import com.example.nusatrip.ui.screens.explore.ExploreDetailScreen
+import com.example.nusatrip.ui.screens.explore.ExploreScreen
+import com.example.nusatrip.ui.screens.explore.BookingSuccessScreen
 import com.example.nusatrip.ui.screens.home.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
@@ -71,7 +76,7 @@ fun NavGraph(
 
 
         composable(Routes.HOME) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
 
         composable(Routes.LOCAL_CONNECT) {
@@ -103,5 +108,30 @@ fun NavGraph(
                 }
             )
         }
+
+        composable(Routes.EXPLORE_PAGE) {
+            ExploreScreen(navController = navController)
+        }
+
+        // Route Detail Screen (menerima placeId)
+        composable(
+            route = "explore_detail/{placeId}",
+            arguments = listOf(navArgument("placeId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val placeId = backStackEntry.arguments?.getInt("placeId") ?: 0
+            ExploreDetailScreen(navController = navController, placeId = placeId)
+        }
+
+        // Route Booking Success (menerima placeId juga agar nama tiket sesuai)
+        composable(
+            route = "booking_success/{placeId}",
+            arguments = listOf(navArgument("placeId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val placeId = backStackEntry.arguments?.getInt("placeId") ?: 0
+            BookingSuccessScreen(navController = navController, placeId = placeId)
+        }
+
+        // Removed: composable(Routes.MAIN)
+        // Reason: Nested navigation logic has been moved to MainScreen.kt to fix bottom bar issues.
     }
 }

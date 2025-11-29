@@ -16,4 +16,6 @@ object Routes {
     const val GENERATE_PLAN = "generate_plan"
     const val PROFILE = "profile"
     const val ITINERARY = "itinerary"
+
+    const val  EXPLORE_PAGE = "explore"
 }
