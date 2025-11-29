@@ -1,11 +1,14 @@
 package com.example.nusatrip.ui.screens.smartplanner.planlist
 
+import android.widget.Spinner
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,57 +59,17 @@ fun PlanListScreen(
     )
 
     val state by viewModel.uiState.collectAsState()
-
-    when (state) {
-        is Resource.Error -> {
-            Text("Error")
-        }
-        Resource.Loading -> {
-            Text("Loading")
-        }
-        is Resource.Success -> {
-            val planList = (state as Resource.Success).data
-            SuccessView(navController = navController, data = planList)
-        }
-    }
-}
-
-@Composable
-private fun SuccessView(navController: NavController,data: List<Plan>) {
     Scaffold(
-        topBar = { TopBar(navController) }
-    ) { padding -> // Content
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(padding)
-                .padding(horizontal = 16.dp)
-        ) {
-            val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
-
-            if (data.isNotEmpty()) {
-                LazyColumn {
-                    items(items = data) { item ->
-                        PlanCard(
-                            title = item.title,
-                            startDateText = item.startDate.format(dateFormatter),
-                            endDateText = item.endDate.format(dateFormatter),
-                            tags = item.tags,
-                            coverUrl = item.imageUri.toString(),
-                            onClick = { navController.navigate(Routes.ITINERARY) })
-                    }
-                }
-            }
-
-
+        topBar = { TopBar(navController) },
+        floatingActionButton = {
             // Generate New Plan Button
             Button(
                 onClick = {
                     // TODO: Implement your "Generate New Plan" logic here.
                     // This might involve calling a ViewModel function or showing a dialog.
+                    navController.navigate(Routes.GENERATE_PLAN)
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF7F1D1D)
@@ -119,6 +83,58 @@ private fun SuccessView(navController: NavController,data: List<Plan>) {
                 )
             }
         }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier.padding(paddingValues),
+        ) {
+            when (state) {
+                is Resource.Error -> {
+                    Text("Error")
+                }
+                Resource.Loading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+                }
+                is Resource.Success -> {
+                    val planList = (state as Resource.Success).data
+                    SuccessView(navController = navController, data = planList)
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
+private fun SuccessView(navController: NavController,data: List<Plan>) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    ) {
+        val dateFormatter = DateTimeFormatter.ofPattern("dd MMM, yyyy")
+
+
+
+        if (data.isNotEmpty()) {
+            LazyColumn {
+                items(items = data) { item ->
+                    PlanCard(
+                        title = item.title,
+                        startDateText = item.startDate.format(dateFormatter),
+                        endDateText = item.endDate.format(dateFormatter),
+                        tags = item.tags,
+                        coverUrl = item.imageUri.toString(),
+                        onClick = { navController.navigate(Routes.ITINERARY) })
+                }
+            }
+        }
+
+
+
     }
 }
 

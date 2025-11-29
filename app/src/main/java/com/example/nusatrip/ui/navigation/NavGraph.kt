@@ -13,6 +13,7 @@ import com.example.nusatrip.ui.screens.home.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
 import com.example.nusatrip.ui.screens.profile.ProfileScreen
+import com.example.nusatrip.ui.screens.smartplanner.generateplan.GeneratePlanScreen
 import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
 import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
 import com.example.nusatrip.ui.screens.splash.SplashScreen
@@ -83,6 +84,9 @@ fun NavGraph(
             PlanListScreen(
                 navController = navController,
             )
+        }
+        composable(Routes.GENERATE_PLAN) {
+            GeneratePlanScreen(navController = navController)
         }
         composable(Routes.ITINERARY) {
             ItineraryScreen(navController = navController)
