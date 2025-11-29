@@ -30,6 +30,23 @@ class AuthViewModel : ViewModel() {
     private val _authState = MutableStateFlow(AuthState())
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
+    /**
+     * Initialization block.
+     * Automatically checks for an existing user session when the ViewModel is created.
+     * This ensures the Profile screen receives user data even after an app restart.
+     */
+    init {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            _authState.value = AuthState(
+                user = currentUser,
+                isSuccess = true,
+                isLoading = false,
+                isRegistrationComplete = true
+            )
+        }
+    }
+
     fun isUserLoggedIn(): Boolean {
         return auth.currentUser != null
     }

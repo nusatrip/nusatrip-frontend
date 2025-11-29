@@ -14,6 +14,7 @@ object Routes {
     const val LOCAL_CONNECT = "localconnect"
     const val LOCAL_CONNECT_DETAIL = "localconnect/detail/{detailId}/{detailType}"
     const val SMART_PLANNER = "smartplanner"
+    const val GENERATE_PLAN = "generate_plan"
     const val PROFILE = "profile"
     const val ITINERARY = "itinerary"
 
@@ -26,4 +27,5 @@ object Routes {
     fun localConnectDetail(detailId: String, detailType: String): String {
         return "localconnect/detail/$detailId/$detailType"
     }
+    const val  EXPLORE_PAGE = "explore"
 }
