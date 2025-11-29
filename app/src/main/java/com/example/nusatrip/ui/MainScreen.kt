@@ -18,15 +18,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.nusatrip.ui.navigation.BottomNavItem
 import com.example.nusatrip.ui.navigation.NavGraph
 import com.example.nusatrip.ui.navigation.Routes
 import com.example.nusatrip.ui.screens.home.HomeScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
+import com.example.nusatrip.ui.screens.localconnect.LocalConnectDetailScreen
 import com.example.nusatrip.ui.screens.profile.ProfileScreen
 import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
 import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
@@ -53,7 +56,12 @@ fun MainBottomNavScreen(
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController)
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+
+            if (currentRoute != null && !currentRoute.startsWith("localconnect/detail")) {
+                BottomNavigationBar(navController = navController)
+            }
         }
     ) { paddingValues ->
         NavHost(
@@ -65,16 +73,43 @@ fun MainBottomNavScreen(
                 HomeScreen()
             }
             composable(Routes.LOCAL_CONNECT) {
-                LocalConnectScreen()
-            }
-            composable(Routes.SMART_PLANNER) {
-                PlanListScreen(
-                    navController = navController,
+                LocalConnectScreen(
+                    onNavigateToDetail = { detailId, detailType ->
+                        navController.navigate(
+                            Routes.localConnectDetail(detailId, detailType.name)
+                        )
+                    }
                 )
             }
+
+            composable(
+                route = Routes.LOCAL_CONNECT_DETAIL,
+                arguments = listOf(
+                    navArgument("detailId") { type = NavType.StringType },
+                    navArgument("detailType") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val detailId = backStackEntry.arguments?.getString("detailId") ?: ""
+                val detailType = backStackEntry.arguments?.getString("detailType") ?: ""
+
+                LocalConnectDetailScreen(
+                    detailId = detailId,
+                    detailType = detailType,
+                    onBackClick = { navController.popBackStack() },
+                    onRouteClick = {
+                        // TODO: Navigate to map/route screen
+                    }
+                )
+            }
+
+            composable(Routes.SMART_PLANNER) {
+                PlanListScreen(navController = navController)
+            }
+
             composable(Routes.ITINERARY) {
                 ItineraryScreen(navController = navController)
             }
+
             composable(Routes.PROFILE) {
                 ProfileScreen(
                     onLogout = {
