@@ -38,6 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
+import com.example.nusatrip.data.repository.PlanRepositoryImpl
 import com.example.nusatrip.ui.components.TagChip
 import com.example.nusatrip.ui.navigation.Routes
 import java.time.format.DateTimeFormatter
@@ -45,8 +46,12 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun PlanListScreen(
     navController: NavController,
-    viewModel: PlanListViewModel = viewModel()
 ) {
+    val repo = PlanRepositoryImpl()
+    val viewModel: PlanListViewModel = viewModel(
+        factory = PlanListViewModelFactory(repo)
+    )
+
     Scaffold(
         topBar = { TopBar(navController) }
     ) { padding -> // Content
