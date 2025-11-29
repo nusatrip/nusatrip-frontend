@@ -11,11 +11,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -27,49 +27,47 @@ import com.example.nusatrip.ui.navigation.Routes
 
 /**
  * The main entry point for the UI.
- * This component handles the global scaffold and conditional bottom navigation visibility.
+ * Handles Scaffolding, Bottom Navigation visibility, and Edge-to-Edge padding logic.
  */
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
 
-    // 1. Observe the current back stack entry to determine the active route
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    // 2. Define which routes should display the Bottom Bar
-    val bottomBarRoutes = listOf(
+    // Define which routes need the Bottom Bar and standard Padding
+    val mainTabRoutes = listOf(
         Routes.HOME,
         Routes.LOCAL_CONNECT,
         Routes.SMART_PLANNER,
         Routes.PROFILE
     )
 
-    // 3. Determine visibility based on the current route
-    val shouldShowBottomBar = currentRoute in bottomBarRoutes
+    val showBottomBar = currentRoute in mainTabRoutes
 
     Scaffold(
+        containerColor = Color.Transparent,
         bottomBar = {
-            if (shouldShowBottomBar) {
+            if (showBottomBar) {
                 BottomNavigationBar(navController = navController)
             }
         }
     ) { paddingValues ->
-        Surface(
-            modifier = Modifier.padding(paddingValues),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            NavGraph(
-                navController = navController,
-                startDestination = Routes.SPLASH
-            )
+        val targetModifier = if (showBottomBar) {
+            Modifier.padding(paddingValues)
+        } else {
+            Modifier
         }
+
+        NavGraph(
+            navController = navController,
+            startDestination = Routes.SPLASH,
+            modifier = targetModifier
+        )
     }
 }
 
-/**
- * Private helper component for the Bottom Navigation Bar.
- */
 @Composable
 private fun BottomNavigationBar(
     navController: NavHostController
@@ -106,14 +104,10 @@ private fun BottomNavigationBar(
                 selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 onClick = {
                     navController.navigate(item.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
-                        // Avoid multiple copies of the same destination
                         launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
                         restoreState = true
                     }
                 },
