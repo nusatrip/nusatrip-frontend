@@ -4,6 +4,7 @@ package com.example.nusatrip.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.nusatrip.R
 import com.example.nusatrip.ui.navigation.Routes
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -119,7 +121,27 @@ fun HomeScreen(navController: androidx.navigation.NavController) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(48.dp))
+
+            Button(
+                onClick = { navController.navigate(Routes.GENERATE_PLAN) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF8B3A3A)),
+                shape = RoundedCornerShape(12.dp),
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+            ) {
+                Text(
+                    text = "Start Planning",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Carousel Section
             val pagerState = rememberPagerState(pageCount = { 4 })
@@ -171,7 +193,10 @@ fun HomeScreen(navController: androidx.navigation.NavController) {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(exploreRecommendations) { place ->
-                    RecommendationCard(place)
+                    RecommendationCard(
+                        place = place,
+                        onClick = { navController.navigate("explore_detail/${place.id}") }
+                    )
                 }
             }
 
@@ -255,12 +280,13 @@ fun CarouselCard(item: CarouselItem) {
 }
 
 @Composable
-fun RecommendationCard(place: Place) {
+fun RecommendationCard(place: Place, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(200.dp)
             .height(150.dp)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(16.dp))
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
