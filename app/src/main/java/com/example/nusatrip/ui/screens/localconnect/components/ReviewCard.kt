@@ -17,10 +17,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.nusatrip.domain.model.Review
+import com.example.nusatrip.domain.model.ReviewLocalConnect
 
 @Composable
-fun ReviewCard(review: Review) {
+fun ReviewCard(review: ReviewLocalConnect) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),

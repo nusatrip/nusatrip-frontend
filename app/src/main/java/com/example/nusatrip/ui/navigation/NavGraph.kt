@@ -14,6 +14,7 @@ import com.example.nusatrip.ui.screens.explore.ExploreDetailScreen
 import com.example.nusatrip.ui.screens.explore.ExploreScreen
 import com.example.nusatrip.ui.screens.explore.BookingSuccessScreen
 import com.example.nusatrip.ui.screens.home.HomeScreen
+import com.example.nusatrip.ui.screens.localconnect.LocalConnectDetailScreen
 import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
 import com.example.nusatrip.ui.screens.onboarding.OnboardingScreen
 import com.example.nusatrip.ui.screens.profile.ProfileRoute
@@ -129,6 +130,41 @@ fun NavGraph(
         ) { backStackEntry ->
             val placeId = backStackEntry.arguments?.getInt("placeId") ?: 0
             BookingSuccessScreen(navController = navController, placeId = placeId)
+        }
+
+        // Local Connect Screen
+        composable(Routes.LOCAL_CONNECT) {
+            LocalConnectScreen(
+                onNavigateToDetail = { detailId, detailType ->
+                    navController.navigate(
+                        Routes.localConnectDetail(detailId, detailType. name)
+                    )
+                }
+            )
+        }
+
+        // Local Connect Detail Screen
+        composable(
+            route = Routes.LOCAL_CONNECT_DETAIL,
+            arguments = listOf(
+                navArgument("detailId") { type = NavType. StringType },
+                navArgument("detailType") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val detailId = backStackEntry.arguments?.getString("detailId") ?: ""
+            val detailType = backStackEntry.arguments?.getString("detailType") ?: ""
+
+            LocalConnectDetailScreen(
+                detailId = detailId,
+                detailType = detailType,
+                onBackClick = {
+                    navController.navigateUp()
+                },
+                onRouteClick = {
+                    // TODO: Implementasi navigasi ke Google Maps atau fitur route
+                    // Contoh: buka Google Maps dengan koordinat tertentu
+                }
+            )
         }
 
         // Removed: composable(Routes.MAIN)

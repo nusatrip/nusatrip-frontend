@@ -25,7 +25,7 @@ data class LocalTourGuide(
     val imageRes: Int
 )
 
-data class Review(
+data class ReviewLocalConnect(
     val userName: String,
     val userImageRes: Int,
     val comment: String,
@@ -39,7 +39,7 @@ data class LocalConnectDetail(
     val location: String,
     val imageRes: Int,
     val overviewText: String,
-    val reviews: List<Review>,
+    val reviews: List<ReviewLocalConnect>,
     val totalReviews: Int,
     val type: LocalConnectType
 )

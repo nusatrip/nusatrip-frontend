@@ -2,7 +2,7 @@ package com.example.nusatrip.domain.model
 
 import com.example.nusatrip.R
 
-data class Review(
+data class ReviewPlace(
     val userName: String,
     val avatarRes: Int,
     val date: String,
@@ -18,5 +18,5 @@ data class Place(
     val rating: Double,
     val category: String,
     val imageRes: Int,
-    val reviews: List<Review> = emptyList()
+    val reviews: List<ReviewPlace> = emptyList()
 )

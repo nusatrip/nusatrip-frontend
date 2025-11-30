@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.nusatrip.data.dummy.DummyData
-import com.example.nusatrip.domain.model.Review
+import com.example.nusatrip.domain.model.ReviewPlace
 
 @Composable
 fun ExploreDetailScreen(navController: NavController, placeId: Int) {
@@ -170,7 +170,7 @@ fun TabItem(title: String, isSelected: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-fun ReviewItem(review: Review) {
+fun ReviewItem(review: ReviewPlace) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),

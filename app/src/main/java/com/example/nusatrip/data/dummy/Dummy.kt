@@ -2,15 +2,40 @@ package com.example.nusatrip.data.dummy
 
 import com.example.nusatrip.R
 import com.example.nusatrip.domain.model.Place
-import com.example.nusatrip.domain.model.Review
+import com.example.nusatrip.domain.model.ReviewPlace
 
 object DummyData {
     val dummyReviews = listOf(
-        Review("Johan", R.drawable.person1, "6 months ago", 4.3, "Tempatnya sangat indah, jika kembali ke jogja saya pasti akan kembali"),
-        Review("Raihani", R.drawable.person2, "6 months ago", 4.5, "Cuacananya cangat nyaman UwU, Pantainya..... juga cangat indah (>///<)"),
-        Review("Raja Pon", R.drawable.person3, "1 month ago", 4.0, "Tempat yang bagus untuk berlibur."),
-        Review("Rapli", R.drawable.person5, "2 days ago", 1.1, "Tempat jelek!11!!11 AKU GASUKAAAAA"),
-        Review("Bron", R.drawable.person4, "1 day ago", 5.0, "BrrrrrBRRRRR BRRR brrrr")
+        ReviewPlace(
+            "Johan",
+            R.drawable.person1,
+            "6 months ago",
+            4.3,
+            "Tempatnya sangat indah, jika kembali ke jogja saya pasti akan kembali"
+        ),
+        ReviewPlace(
+            "Raihani",
+            R.drawable.person2,
+            "6 months ago",
+            4.5,
+            "Cuacananya cangat nyaman UwU, Pantainya..... juga cangat indah (>///<)"),
+        ReviewPlace(
+            "Raja Pon",
+            R.drawable.person3,
+            "1 month ago",
+            4.0,
+            "Tempat yang bagus untuk berlibur."),
+        ReviewPlace(
+            "Rapli",
+            R.drawable.person5,
+            "2 days ago",
+            1.1,
+            "Tempat jelek!11!!11 AKU GASUKAAAAA"),
+        ReviewPlace(
+            "Bron",
+            R.drawable.person4,
+            "1 day ago", 5.0,
+            "BrrrrrBRRRRR BRRR brrrr")
     )
     val places = listOf(
         Place(

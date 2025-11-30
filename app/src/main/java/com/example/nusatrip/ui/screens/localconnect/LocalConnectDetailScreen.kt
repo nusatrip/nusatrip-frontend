@@ -23,7 +23,7 @@ import com.example.nusatrip.ui.screens.localconnect.components.OverviewTab
 import com.example.nusatrip.ui.screens.localconnect.components.ReviewsTab
 import com.example.nusatrip.domain.model.LocalConnectDetail
 import com.example.nusatrip.domain.model.LocalConnectType
-import com.example.nusatrip.domain.model.Review
+import com.example.nusatrip.domain.model.ReviewLocalConnect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -235,30 +235,30 @@ private fun getTourGuideDetail(detailId: String): LocalConnectDetail {
     )
 }
 
-private fun getSampleReviews(): List<Review> {
+private fun getSampleReviews(): List<ReviewLocalConnect> {
     return listOf(
-        Review(
+        ReviewLocalConnect(
             userName = "Nadya",
             userImageRes = R.drawable.localbussiness1,
             comment = "Amazing experience! Highly recommended for everyone visiting Yogyakarta.",
             rating = 5.0f,
             timeAgo = "6 months ago"
         ),
-        Review(
+        ReviewLocalConnect(
             userName = "Raihani",
             userImageRes = R.drawable.localbussiness1,
             comment = "Great service and very authentic. Will definitely come back!",
             rating = 5.0f,
             timeAgo = "6 months ago"
         ),
-        Review(
+        ReviewLocalConnect(
             userName = "Echa",
             userImageRes = R.drawable.localbussiness1,
             comment = "Worth every penny. The guide was very knowledgeable and friendly.",
             rating = 5.0f,
             timeAgo = "6 months ago"
         ),
-        Review(
+        ReviewLocalConnect(
             userName = "Ghaniya",
             userImageRes = R.drawable.localbussiness1,
             comment = "Perfect! Can't wait to visit again with my family.",

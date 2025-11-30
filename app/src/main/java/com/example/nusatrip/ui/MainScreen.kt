@@ -21,22 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.example.nusatrip.R
 import com.example.nusatrip.ui.navigation.BottomNavItem
 import com.example.nusatrip.ui.navigation.NavGraph
 import com.example.nusatrip.ui.navigation.Routes
-import com.example.nusatrip.ui.screens.home.HomeScreen
-import com.example.nusatrip.ui.screens.localconnect.LocalConnectScreen
-import com.example.nusatrip.ui.screens.localconnect.LocalConnectDetailScreen
-import com.example.nusatrip.ui.screens.profile.ProfileScreen
-import com.example.nusatrip.ui.screens.smartplanner.itinerary.ItineraryScreen
-import com.example.nusatrip.ui.screens.smartplanner.planlist.PlanListScreen
-import com.example.nusatrip.viewmodel.AuthViewModel
 
 // --- Design System Constants ---
 private val PrimaryBrandColor = Color(0xFF762727)
@@ -68,74 +58,29 @@ fun MainScreen() {
         Routes.PROFILE
     )
 
-    val showBottomBar = currentRoute in mainTabRoutes
+    val isDetailRoute = currentRoute?. startsWith("localconnect/detail/") == true ||
+            currentRoute?.startsWith("explore_detail/") == true ||
+            currentRoute?.startsWith("booking_success/") == true
+
+    val showBottomBar = currentRoute in mainTabRoutes && !isDetailRoute
 
     Scaffold(
         // Set transparent to allow full-screen content (e.g., Login) to draw behind system bars
         containerColor = Color.Transparent,
         bottomBar = {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
-
-            if (currentRoute != null && !currentRoute.startsWith("localconnect/detail")) {
-                BottomNavigationBar(navController = navController)
+            if (showBottomBar) {
+                FloatingCapsuleNavigationBar(navController = navController)
             }
         }
     ) { paddingValues ->
-        NavHost(
-            navController = navController,
-            startDestination = Routes.HOME,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            composable(Routes.HOME) {
-                HomeScreen()
-            }
-            composable(Routes.LOCAL_CONNECT) {
-                LocalConnectScreen(
-                    onNavigateToDetail = { detailId, detailType ->
-                        navController.navigate(
-                            Routes.localConnectDetail(detailId, detailType.name)
-                        )
-                    }
-                )
-            }
 
-            composable(
-                route = Routes.LOCAL_CONNECT_DETAIL,
-                arguments = listOf(
-                    navArgument("detailId") { type = NavType.StringType },
-                    navArgument("detailType") { type = NavType.StringType }
-                )
-            ) { backStackEntry ->
-                val detailId = backStackEntry.arguments?.getString("detailId") ?: ""
-                val detailType = backStackEntry.arguments?.getString("detailType") ?: ""
-
-                LocalConnectDetailScreen(
-                    detailId = detailId,
-                    detailType = detailType,
-                    onBackClick = { navController.popBackStack() },
-                    onRouteClick = {
-                        // TODO: Navigate to map/route screen
-                    }
-                )
-            }
-
-            composable(Routes.SMART_PLANNER) {
-                PlanListScreen(navController = navController)
-            }
-
-            composable(Routes.ITINERARY) {
-                ItineraryScreen(navController = navController)
-            }
-
-            composable(Routes.PROFILE) {
-                ProfileScreen(
-                    onLogout = {
-                        authViewModel.logout()
-                        onLogout()
-                    }
-                )
-            }
+        // Conditional Padding Logic:
+        // Apply padding only when the BottomBar is visible to prevent content overlap.
+        // For fullscreen routes, use zero padding to allow edge-to-edge drawing.
+        val targetModifier = if (showBottomBar) {
+            Modifier.padding(paddingValues)
+        } else {
+            Modifier
         }
 
         NavGraph(

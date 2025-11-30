@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.nusatrip.domain.model.Review
+import com.example.nusatrip.domain.model.ReviewLocalConnect
 
 @Composable
-fun ReviewsTab(reviews: List<Review>, totalReviews: Int) {
+fun ReviewsTab(reviews: List<ReviewLocalConnect>, totalReviews: Int) {
     Column(
         modifier = Modifier
             .fillMaxSize()
