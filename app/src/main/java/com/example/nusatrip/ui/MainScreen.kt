@@ -58,7 +58,11 @@ fun MainScreen() {
         Routes.PROFILE
     )
 
-    val showBottomBar = currentRoute in mainTabRoutes
+    val isDetailRoute = currentRoute?. startsWith("localconnect/detail/") == true ||
+            currentRoute?.startsWith("explore_detail/") == true ||
+            currentRoute?.startsWith("booking_success/") == true
+
+    val showBottomBar = currentRoute in mainTabRoutes && !isDetailRoute
 
     Scaffold(
         // Set transparent to allow full-screen content (e.g., Login) to draw behind system bars
